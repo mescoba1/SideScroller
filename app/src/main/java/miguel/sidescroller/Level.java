@@ -20,7 +20,9 @@ public class Level {
         obstacles.add(new Platform(8,10,8));
         obstacles.add(new Platform(20,10,9));
         obstacles.add(new Platform(40,10,10));
-        obstacles.add(new Platform(0,14,90));
+        obstacles.add(new Platform(0,13,90));
+        obstacles.add(new Pipe(10,5,4));
+        obstacles.add(new Floor(0,15,40));
         return obstacles;
     }
 }

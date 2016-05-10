@@ -20,7 +20,7 @@ public class Floor extends Obstacle {
     }
     public void draw(int canvasX, int canvasY, int tileWidth, int tileHeight, Canvas c){
         Paint p = new Paint();
-        p.setColor(Color.BLACK);
+        p.setColor(Color.GREEN);
         c.drawRect(canvasX, canvasY,canvasX+(width*tileWidth), canvasY+(height*tileHeight), p);
     }
 }
