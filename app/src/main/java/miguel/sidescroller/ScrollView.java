@@ -14,6 +14,7 @@ public class ScrollView extends SurfaceView
     public Bitmap mybitmap;
     public int screenHeight, screenWidth, tileWidth, buttonWidth;
     public boolean movement = false;
+    int camera = 0;
     public enum Directions{
         Up,Down,Left,Right
     }
@@ -26,11 +27,13 @@ public class ScrollView extends SurfaceView
         Bitmap mybitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
     }
     ScrollThread st;
+    GameEngine game;
 
     @Override
     public void surfaceCreated(SurfaceHolder holder){
         screenWidth = getWidth();
         screenHeight = getHeight();
+        game = new GameEngine(screenWidth,screenHeight);
         st = new ScrollThread(this);
         st.start();
     }
@@ -67,12 +70,13 @@ public class ScrollView extends SurfaceView
     @Override
     protected void onDraw(Canvas c){
     }
-    public void draw(Canvas c, int x, int y){
-
-    }
 
     public void draw(Canvas c) {
-        c.drawColor(Color.GRAY);
+        c.drawColor(Color.WHITE);
+        game.drawLevel(camera, c);
+        if(camera < screenWidth){
+            camera++;
+        }
     }
 }
 
