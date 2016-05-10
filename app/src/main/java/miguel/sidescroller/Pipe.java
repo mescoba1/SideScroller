@@ -5,21 +5,21 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 /**
- * Created by miguel on 5/4/2016.
+ * Created by miguel on 5/10/2016.
  */
-public class Platform extends Obstacle {
+public class Pipe extends Obstacle {
     public int x, y;
     public final int width, height;
-    public Platform(int x, int y, int width){
-        super(x,y, width);
+    public Pipe(int x, int y, int height){
+        super(x,y, height);
         this.x = x;
         this.y = y;
-        this.width = width;
-        height = 1;
+        width = 1;
+        this.height = height;
     }
     public void draw(int canvasX, int canvasY, int tileWidth, int tileHeight, Canvas c){
         Paint p = new Paint();
-        p.setColor(Color.GRAY);
+        p.setColor(Color.GREEN);
         c.drawRect(canvasX, canvasY,canvasX+(width*tileWidth), canvasY+(height*tileHeight), p);
     }
 }
