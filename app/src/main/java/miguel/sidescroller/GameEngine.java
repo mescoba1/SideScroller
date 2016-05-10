@@ -32,13 +32,17 @@ public class GameEngine {
         Vector<Obstacle> current = levels.get(currentLevel);
         int size = current.size();
         for(int i = 0; i < size; i++){
+            //convert grid pos to screen positions
             int x = tileWidth * current.get(i).x;
             int y = tileHeight * current.get(i).y;
+
+            //convert grid Width/Height to Screen
             int w = tileWidth * current.get(i).width;
             int h = tileHeight * current.get(i).height;
+
             //checks if parts of block are drawable onto the screen
             if((x >= camX && x < camX+screenWidth) || (x < camX && x+w > camX)){
-                //draw obstacle
+                //draw obstacle relative to camera position
                 current.get(i).draw(x-camX, y, tileWidth, tileHeight, c);
             }
         }
