@@ -14,7 +14,7 @@ public class Pipe extends Obstacle {
         super(x,y, height);
         this.x = x;
         this.y = y;
-        width = 1;
+        this.width = 1;
         this.height = height;
     }
     public void draw(int canvasX, int canvasY, int tileWidth, int tileHeight, Canvas c){

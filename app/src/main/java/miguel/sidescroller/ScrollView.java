@@ -16,8 +16,9 @@ public class ScrollView extends SurfaceView
     public boolean movement = false;
     int camera = 0;
     public enum Directions{
-        Up,Down,Left,Right
+        Up,Left,Right,Down
     }
+    public boolean moveLeft = false, moveRight = false;
     public Directions dir;
     public ScrollView (Context context) {
         super(context) ;
@@ -60,11 +61,28 @@ public class ScrollView extends SurfaceView
         float y = e.getY();
         switch (e.getAction()){
             case MotionEvent.ACTION_DOWN:
+                //move left
+                if(x < screenWidth/2 && y > screenHeight/2) {
+                    moveLeft = true;
+                    dir = Directions.Left;
+                }
+                //move right
+                else if(x > screenWidth/2 && y > screenHeight/2) {
+                    moveRight = true;
+                    dir = Directions.Right;
+                }
+                //jump
+                else if (y < screenHeight / 2) {
+                    dir = Directions.Up;
+                }
                 return true;
             case MotionEvent.ACTION_UP:
+                dir =Directions.Down;
+                moveLeft = false;
+                moveRight = false;
                 break;
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -74,9 +92,13 @@ public class ScrollView extends SurfaceView
     public void draw(Canvas c) {
         c.drawColor(Color.WHITE);
         game.drawLevel(camera, c);
-        if(camera < screenWidth){
-            camera++;
+        game.gravity(camera);
+        game.movePlayer(dir, moveLeft, moveRight);
+        game.checkWall(camera);
+        if(camera <= game.tileWidth * game.level.width){
+            camera+=game.speed;
         }
+        System.out.println("camera: "+ camera);
     }
 }
 
