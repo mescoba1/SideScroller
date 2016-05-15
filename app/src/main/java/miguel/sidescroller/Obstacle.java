@@ -7,7 +7,7 @@ import android.graphics.Canvas;
  */
 public class Obstacle {
     int x, y;
-    int width, height;
+    int width, height, radius;
     public Obstacle(){
 
     }
