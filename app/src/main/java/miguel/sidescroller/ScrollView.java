@@ -90,12 +90,12 @@ public class ScrollView extends SurfaceView
     }
 
     public void draw(Canvas c) {
-        c.drawColor(Color.WHITE);
+        c.drawColor(Color.rgb(135,206,250));
         game.drawLevel(camera, c);
         game.gravity(camera);
         game.movePlayer(dir, moveLeft, moveRight);
         game.checkWall(camera);
-        if(camera <= game.tileWidth * game.level.width){
+        if(camera <= (game.tileWidth * game.level.width) - game.screenWidth){
             camera+=game.speed;
         }
     }

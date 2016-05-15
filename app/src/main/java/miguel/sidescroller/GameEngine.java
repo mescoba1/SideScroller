@@ -1,14 +1,16 @@
 package miguel.sidescroller;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 
+import java.util.Random;
 import java.util.Vector;
 
 /**
  * Created by miguel on 5/4/2016.
  */
 public class GameEngine {
-    private int screenWidth, screenHeight;
+    protected int screenWidth, screenHeight;
     private int radius;
     protected int tileWidth, tileHeight;
     public int currentLevel;
@@ -54,7 +56,8 @@ public class GameEngine {
             }
         }
         if(player.grounded == false){
-            player.p.setColor(Color.LTGRAY);
+            Random rand= new Random();
+            player.p.setColor(Color.rgb(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256)));
         } else {
             player.p.setColor(Color.BLUE);
         }

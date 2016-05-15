@@ -19,7 +19,7 @@ public class Pipe extends Obstacle {
     }
     public void draw(int canvasX, int canvasY, int tileWidth, int tileHeight, Canvas c){
         Paint p = new Paint();
-        p.setColor(Color.LTGRAY);
+        p.setColor(Color.rgb(91, 194, 54));
         c.drawRect(canvasX, canvasY,canvasX+(width*tileWidth), canvasY+(height*tileHeight), p);
     }
 }
