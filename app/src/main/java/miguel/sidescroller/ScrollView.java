@@ -16,7 +16,7 @@ public class ScrollView extends SurfaceView
     public boolean movement = false;
     int camera = 0;
     public enum Directions{
-        Up,Left,Right,Down
+        Up,Down,Left,Right
     }
     public boolean moveLeft = false, moveRight = false;
     public Directions dir;
@@ -98,7 +98,6 @@ public class ScrollView extends SurfaceView
         if(camera <= game.tileWidth * game.level.width){
             camera+=game.speed;
         }
-        System.out.println("camera: "+ camera);
     }
 }
 

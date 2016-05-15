@@ -1,7 +1,6 @@
 package miguel.sidescroller;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 
 import java.util.Vector;
 
@@ -10,6 +9,7 @@ import java.util.Vector;
  */
 public class GameEngine {
     private int screenWidth, screenHeight;
+    private int radius;
     protected int tileWidth, tileHeight;
     public int currentLevel;
     public boolean canMoveRight = true, canMoveLeft = true, dragLeft = false, dragRight = false;
@@ -18,6 +18,8 @@ public class GameEngine {
     Vector<Vector<Obstacle>> levels;
     Level level;
     Player player;
+    Level clevel;
+
     public GameEngine(int sw, int sh){
         screenHeight = sh;
         screenWidth = sw;
