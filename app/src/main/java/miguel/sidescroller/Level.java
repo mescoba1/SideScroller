@@ -144,17 +144,38 @@ public class Level {
 
         return obstacles;
     }
-
+    public Vector<Coin> CoinLevel2() {
+        Vector<Coin> coins = new Vector<Coin>();
+      /*  for(int i=2; i<45;i+=2){
+            coins.add(new Coin(i,15));
+        }*/
+        for(int i=3; i<+12;i++){
+            coins.add(new Coin(i,5));
+        }
+        for(int i=20;i<=44;i++){
+            coins.add(new Coin(i,7));
+        }
+        for(int i=13;i<=23;i++){
+            coins.add(new Coin(i,20));
+        }
+        for(int i=30;i<=45;i++){
+            coins.add(new Coin(i,10));
+        }
+        return coins;
+    }
     public Vector<Obstacle> Level2() {
         Vector<Obstacle> obstacles = new Vector<Obstacle>();
-        obstacles.add(new Floor(0, 15, 90));
+        obstacles.add(new Floor(0, 15, 45));
         obstacles.add(new Pipe(1, 11, 4));
         obstacles.add(new Pipe(3, 10, 5));
         obstacles.add(new Pipe(5, 11, 4));
         obstacles.add(new Platform(3, 5, 9));
-        obstacles.add(new Platform(13, 5, 9));
+        obstacles.add(new Platform(13, 9, 9));
         obstacles.add(new Platform(13, 2, 11));
         obstacles.add(new Platform(15, 20, 9));
+        obstacles.add(new Platform(20, 4, 15));
+        obstacles.add(new Platform(20,7, 22));
+        obstacles.add(new Platform(30,10,15));
         obstacles.add(new Pipe(9, 11, 4));
         obstacles.add(new Pipe(12, 14, 1));
         obstacles.add(new Platform(10, 9, 7));

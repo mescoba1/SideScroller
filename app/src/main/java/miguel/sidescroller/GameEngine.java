@@ -38,8 +38,8 @@ public class GameEngine {
         coins= new Vector<Vector<Coin>>();
 
         //generate levels
-        levels.add(level.Level1());
-        coins.add(level.CoinLevel1());
+        levels.add(level.Level2());
+        coins.add(level.CoinLevel2());
         currentLevel = 0;
         player = new Player(tileWidth);
     }
