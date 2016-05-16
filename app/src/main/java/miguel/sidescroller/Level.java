@@ -14,16 +14,19 @@ public class Level {
     /*Obstacle vector in level
 
      */
-    public Vector<Coin> Level0_(){
+    //coinLevel
+    public Vector<Coin> CoinLevel0() {
         Vector<Coin> coins = new Vector<Coin>();
-        coins.add(new Coin(1,1));
+        coins.add(new Coin(1, 1));
+        coins.add(new Coin(1, 2));
+        coins.add(new Coin(1, 3));
+        coins.add(new Coin(2, 4));
         return coins;
     }
+
     public Vector<Obstacle> Level0(){
         Vector<Obstacle> obstacles = new Vector<Obstacle>();
-       // Vector<Coin> coins = new Vector<Coin>();
-        //platforms are grey horizontal
-        //pipes are light grey vertical
+
 
         obstacles.add(new Platform(1,1,4));
         obstacles.add(new Platform(2,4,5));

@@ -10,22 +10,22 @@ import android.graphics.Paint;
 public class Coin  {
     public int x, y;
    // public final int width, height;
-    public final int radius;
+    public final int diameter;
     public Coin(int x, int y){
         //super(x, y);
         this.x = x;
         this.y = y;
-        radius =1;
+        diameter =1;
         //height = 1/2;
         //width = 1/2;
 
 
     }
-    public void draw(int canvasX, int canvasY, int tileWidth, int tileHeight, Canvas c){
+    public void draw(int canvasX, int canvasY, int size, Canvas c){
         Paint p = new Paint();
         p.setColor(Color.YELLOW);
         //c.drawRect
-        c.drawCircle(canvasX, canvasY,radius, p);
+        c.drawCircle(canvasX, canvasY,(size/2)*diameter, p);
 
     }
 }
