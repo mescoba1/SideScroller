@@ -17,10 +17,50 @@ public class Level {
     //coinLevel
     public Vector<Coin> CoinLevel0() {
         Vector<Coin> coins = new Vector<Coin>();
-        coins.add(new Coin(1, 1));
-        coins.add(new Coin(1, 2));
-        coins.add(new Coin(1, 3));
-        coins.add(new Coin(2, 4));
+
+        coins.add(new Coin(2, 1));
+        coins.add(new Coin(3, 1));
+        coins.add(new Coin(4, 1));
+        coins.add(new Coin(5, 1));
+        coins.add(new Coin(3, 4));
+        coins.add(new Coin(4, 4));
+        coins.add(new Coin(5, 4));
+        coins.add(new Coin(10, 15));
+        coins.add(new Coin(15, 15));
+        coins.add(new Coin(20, 15));
+        coins.add(new Coin(25, 15));
+        coins.add(new Coin(30, 15));
+        coins.add(new Coin(35, 15));
+        coins.add(new Coin(40, 15));
+        coins.add(new Coin(45, 15));
+        coins.add(new Coin(4, 6));
+        coins.add(new Coin(5, 6));
+        coins.add(new Coin(6, 6));
+        coins.add(new Coin(7, 6));
+        coins.add(new Coin(8, 6));
+        coins.add(new Coin(9, 6));
+        coins.add(new Coin(10, 6));
+        coins.add(new Coin(4, 8));
+        coins.add(new Coin(5, 8));
+        coins.add(new Coin(6, 8));
+        coins.add(new Coin(7, 8));
+        coins.add(new Coin(8, 13));
+        coins.add(new Coin(10, 13));
+        coins.add(new Coin(12, 13));
+        coins.add(new Coin(14, 13));
+        coins.add(new Coin(16, 13));
+        coins.add(new Coin(18, 13));
+        coins.add(new Coin(20, 13));
+        coins.add(new Coin(22, 13));
+        coins.add(new Coin(24, 13));
+        coins.add(new Coin(26, 13));
+        coins.add(new Coin(28, 13));
+        coins.add(new Coin(30, 13));
+        coins.add(new Coin(32, 13));
+        coins.add(new Coin(34, 13));
+        coins.add(new Coin(36, 13));
+        coins.add(new Coin(38, 13));
+        coins.add(new Coin(40, 13));
         return coins;
     }
 
@@ -34,13 +74,10 @@ public class Level {
         obstacles.add(new Platform(4,8,7));
         obstacles.add(new Platform(8,10,8));
         obstacles.add(new Platform(20,10,9));
-        obstacles.add(new Platform(30,10,10));
+        obstacles.add(new Platform(33,10,10));
         obstacles.add(new Platform(0,13,45));
         obstacles.add(new Pipe(10,5,4));
-        //coins.add(new Coin(5,7));
-       // coins.add(new Coin(10,4));
-        //obstacles.add(new Coin(5,8));
-        //obstacles.add(new Coin(5,9));
+
         obstacles.add(new Floor(0,15,45));
         return obstacles;
     }

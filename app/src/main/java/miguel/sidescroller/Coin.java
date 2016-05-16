@@ -25,7 +25,7 @@ public class Coin  {
         Paint p = new Paint();
         p.setColor(Color.YELLOW);
         //c.drawRect
-        c.drawCircle(canvasX, canvasY,(size/2)*diameter, p);
+        c.drawCircle(canvasX, canvasY,(size/6)*diameter, p);
 
     }
 }

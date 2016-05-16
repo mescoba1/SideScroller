@@ -178,7 +178,7 @@ public class GameEngine {
             //checks if parts of block are drawable onto the screen
             if((x >= camX && x < camX+screenWidth) || (x < camX && x+d > camX)){
                 //draw obstacle relative to camera position
-                levelCoin.get(i).draw(x-camX,y, d,  c);
+                levelCoin.get(i).draw(x-camX,y-d/4, d,  c);
             }
         }
     }
