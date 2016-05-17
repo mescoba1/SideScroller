@@ -24,6 +24,9 @@ public class GameEngine {
     Level clevel;
     Enemy dude;
     double jumpSpeed = 10;
+    Vector<Vector<Coin>> coins;
+    Level coinLevel;
+
     public GameEngine(int sw, int sh){
         screenHeight = sh;
         screenWidth = sw;
@@ -32,10 +35,15 @@ public class GameEngine {
         tileWidth = sw / 9;
         //level object
         level = new Level(screenWidth, screenHeight);
+        coinLevel = new Level(screenWidth, screenHeight);
         //vector of levels
         levels = new Vector<Vector<Obstacle>>();
+        //vector of coins
+        coins= new Vector<Vector<Coin>>();
+
         //generate levels
-        levels.add(level.Level0());
+        levels.add(level.Level2());
+        coins.add(level.CoinLevel2());
         currentLevel = 0;
         player = new Player(tileWidth);
         player.x = 0;
@@ -190,5 +198,30 @@ public class GameEngine {
             }
         }
     }
+    public void drawCoins(int camX, Canvas c){
+        //draw the coins here with
+        Vector<Coin> levelCoin = coins.get(currentLevel);
+        int csize= levelCoin.size();
+
+        for(int i = 0; i < csize; i++){
+            //convert grid pos to screen positions
+            int x = tileWidth * levelCoin.get(i).x;
+            int y = tileHeight * levelCoin.get(i).y;
+            //int x = levelCoin.get(i).x;
+            //int y = levelCoin.get(i).y;
+
+            //convert grid Width/Height to Screen
+
+            int d = tileWidth*levelCoin.get(i).diameter;
+
+
+            //checks if parts of block are drawable onto the screen
+            if((x >= camX && x < camX+screenWidth) || (x < camX && x+d > camX)){
+                //draw obstacle relative to camera position
+                levelCoin.get(i).draw(x-camX,y-d/4, d,  c);
+            }
+        }
+    }
+
 
 }
