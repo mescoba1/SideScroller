@@ -97,7 +97,7 @@ public class ScrollView extends SurfaceView
         game.movePlayer(dir, moveLeft, moveRight);
         game.checkWall(camera);
         if(camera < (game.tileWidth * game.level.levelWidth) - game.screenWidth){
-            camera+=0;
+            camera+=2;
         }
     }
 }

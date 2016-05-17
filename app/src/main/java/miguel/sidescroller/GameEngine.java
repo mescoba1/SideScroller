@@ -23,7 +23,7 @@ public class GameEngine {
     Player player;
     Level clevel;
     Enemy dude;
-    double jumpSpeed = 10;
+    double jumpSpeed = 12;
     Vector<Vector<Coin>> coins;
     Level coinLevel;
 
@@ -79,12 +79,12 @@ public class GameEngine {
             acceleration = 0;
             jumpSpeed -= .1;
             player.y -= jumpSpeed;
-            if(player.y <= temp-(2.5)*tileWidth){
+            if(player.y <= temp-(3.5)*tileWidth){
                 triggerJump = false;
                 player.grounded = true;
                 player.jumpState = false;
-                acceleration = 2;
-                jumpSpeed = 10;
+                acceleration = 2.5;
+                jumpSpeed = 12;
             }
         }
         if(!player.jumpState && !player.grounded){
@@ -141,20 +141,12 @@ public class GameEngine {
             int w = tileWidth * temp.width;
 
             //lands on another obstacle from left side
-            if((player.x > x && player.x < x+w) && ((player.y+player.width >= (double) y*(.998)) && player.y+player.width < (double) y*(1.003))){
-                System.out.println("keft");
-                System.out.println("player x "+ player.x);
-                System.out.println("platform y+w "+ player.y+player.width);
-                System.out.println("player y "+ player.y);
-                System.out.println("platform x "+ x);
-                System.out.println("platform x+w "+ (x+w));
-                System.out.println("platform y " + y);
+            if((player.x > x && player.x < x+w) && ((player.y+player.width >= (double) y*(.9975)) && player.y+player.width < (double) y*(1.005))){
                 player.grounded = true;
                 break;
             }
             //lands from right side
-            else if((player.x+player.width > x && player.x+player.width < x+w) && (player.y+player.width >= (double) y*(.998)) && player.y+player.width < (double) y*(1.003)) {
-                System.out.println("right");
+            else if((player.x+player.width > x && player.x+player.width < x+w) && (player.y+player.width >= (double) y*(.9975)) && player.y+player.width < (double) y*(1.005)) {
                 player.grounded = true;
                 break;
             }
@@ -218,9 +210,15 @@ public class GameEngine {
             //checks if parts of block are drawable onto the screen
             if((x >= camX && x < camX+screenWidth) || (x < camX && x+d > camX)){
                 //draw obstacle relative to camera position
-                levelCoin.get(i).draw(x-camX,y-d/4, d,  c);
+                if(!levelCoin.get(i).aquired) {
+                    levelCoin.get(i).draw(x - camX, y - d / 4, d, c);
+                }
             }
         }
+    }
+
+    public void collision(){
+
     }
 
 

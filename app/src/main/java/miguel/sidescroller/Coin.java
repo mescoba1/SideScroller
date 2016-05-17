@@ -9,6 +9,7 @@ import android.graphics.Paint;
  */
 public class Coin  {
     public int x, y;
+    public boolean aquired;
    // public final int width, height;
     public final int diameter;
     public Coin(int x, int y){
@@ -16,6 +17,7 @@ public class Coin  {
         this.x = x;
         this.y = y;
         diameter =1;
+        aquired = false;
         //height = 1/2;
         //width = 1/2;
 
