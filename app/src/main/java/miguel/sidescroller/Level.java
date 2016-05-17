@@ -21,9 +21,6 @@ public class Level {
     }
     public Vector<Obstacle> Level0(){
         Vector<Obstacle> obstacles = new Vector<Obstacle>();
-       // Vector<Coin> coins = new Vector<Coin>();
-        //platforms are grey horizontal
-        //pipes are light grey vertical
 
         obstacles.add(new Platform(1,1,4));
         obstacles.add(new Platform(2,4,5));

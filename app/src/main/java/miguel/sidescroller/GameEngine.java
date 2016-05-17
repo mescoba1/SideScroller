@@ -11,17 +11,19 @@ import java.util.Vector;
  */
 public class GameEngine {
     protected int screenWidth, screenHeight;
-    private int radius;
+    private int radius, temp;
+    double acceleration = 2.0;
     protected int tileWidth, tileHeight;
     public int currentLevel;
-    public boolean canMoveRight = true, canMoveLeft = true, dragLeft = false, dragRight = false;
+    public boolean canMoveRight = true, canMoveLeft = true, dragLeft = false, dragRight = false, triggerJump = false;
     private Canvas c;
-    public int speed = 2;
+    public int speed = 5;
     Vector<Vector<Obstacle>> levels;
     Level level;
     Player player;
     Level clevel;
-
+    Enemy dude;
+    double jumpSpeed = 10;
     public GameEngine(int sw, int sh){
         screenHeight = sh;
         screenWidth = sw;
@@ -36,6 +38,9 @@ public class GameEngine {
         levels.add(level.Level0());
         currentLevel = 0;
         player = new Player(tileWidth);
+        player.x = 0;
+        player.y = tileHeight*10 ;
+        dude = new Enemy(4*tileWidth, 4*tileWidth, tileWidth);
     }
     public void drawLevel(int camX, Canvas c){
         Vector<Obstacle> current = levels.get(currentLevel);
@@ -57,13 +62,33 @@ public class GameEngine {
         }
         if(player.grounded == false){
             Random rand= new Random();
-            player.p.setColor(Color.rgb(rand.nextInt(256),rand.nextInt(256),rand.nextInt(256)));
+            //Color.rgb(rand.nextInt(256)
+            player.p.setColor(Color.rgb(0,0,0));
         } else {
             player.p.setColor(Color.BLUE);
         }
+        if(triggerJump){
+            acceleration = 0;
+            jumpSpeed -= .1;
+            player.y -= jumpSpeed;
+            if(player.y <= temp-(2.5)*tileWidth){
+                triggerJump = false;
+                player.grounded = true;
+                player.jumpState = false;
+                acceleration = 2;
+                jumpSpeed = 10;
+            }
+        }
+        if(!player.jumpState && !player.grounded){
+            acceleration+= 0.1;
+        }
         player.draw(c);
-        //System.out.println("Player X: " + player.x);
-        //System.out.println("Player y: " + player.y);
+        //dude.draw(c);
+        //dude.update();
+        /*System.out.println("TJ " + triggerJump);
+        System.out.println("Player y: " + player.y);
+        System.out.println("temp " + (temp));
+        System.out.println("limit " + (temp-3*tileWidth));*/
     }
     public void movePlayer(ScrollView.Directions dir, boolean left, boolean right){
         if (dir == ScrollView.Directions.Right && canMoveRight) {
@@ -74,18 +99,24 @@ public class GameEngine {
             if(player.x > 0)
                 player.x-=5;
         }
-        else if(dir == ScrollView.Directions.Up && player.grounded && player.jumpState == false){
-            if(player.y+10> 0 && player.y < screenHeight)
-                player.y-=3*tileHeight;
-            player.grounded = false;
-            player.jumpState = true;
+        else if(dir == ScrollView.Directions.Up && player.grounded &&player.jumpState==false){
+            //trigger jumping frame by frame
+            if(player.y+10> 0 && player.y < screenHeight) {
+                triggerJump = true;
+                temp = (int) player.y;
+                //player.y -= 3*tileWidth;
+            }
+            if(triggerJump) {
+                player.grounded = false;
+                player.jumpState = true;
+            }
         }
     }
 
     public void gravity(int camX){
        checkGround(camX);
         if(player.grounded == false){
-            player.y += 1;
+            player.y += acceleration;
             player.jumpState = false;
             checkGround(camX);
         }
@@ -102,12 +133,20 @@ public class GameEngine {
             int w = tileWidth * temp.width;
 
             //lands on another obstacle from left side
-            if((player.x > x && player.x < x+w) && (player.y + player.width == y)){
+            if((player.x > x && player.x < x+w) && ((player.y+player.width >= (double) y*(.998)) && player.y+player.width < (double) y*(1.003))){
+                System.out.println("keft");
+                System.out.println("player x "+ player.x);
+                System.out.println("platform y+w "+ player.y+player.width);
+                System.out.println("player y "+ player.y);
+                System.out.println("platform x "+ x);
+                System.out.println("platform x+w "+ (x+w));
+                System.out.println("platform y " + y);
                 player.grounded = true;
                 break;
             }
             //lands from right side
-            else if((player.x+player.width > x && player.x+player.width < x+w) && (player.y + player.width == y)) {
+            else if((player.x+player.width > x && player.x+player.width < x+w) && (player.y+player.width >= (double) y*(.998)) && player.y+player.width < (double) y*(1.003)) {
+                System.out.println("right");
                 player.grounded = true;
                 break;
             }
@@ -132,15 +171,15 @@ public class GameEngine {
             int w = tileWidth * temp.width;
             //hitting obstacle from left side
             if((player.x+player.width == x) && (player.y > y && player.y < y+w)){
-                canMoveRight = false;
+                /*canMoveRight = false;
                 dragLeft = true;
-                break;
+                break;*/
             }
             //hitting obstacle from right side
             else if(player.x == x+w && (player.y > y && player.y < y+w)){
-                canMoveLeft = false;
+                /*canMoveLeft = false;
                 dragRight = true;
-                break;
+                break;*/
             }
             //resetting flags if not colliding
             else {

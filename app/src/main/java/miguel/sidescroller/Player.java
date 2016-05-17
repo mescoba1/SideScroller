@@ -8,7 +8,7 @@ import android.graphics.Paint;
  * Created by miguel on 5/14/2016.
  */
 public class Player {
-    public int x,y;
+    public double x,y;
     int width, size;
     public Paint p = new Paint();
     public boolean grounded, jumpState;
@@ -23,6 +23,6 @@ public class Player {
     }
 
     public void draw(Canvas c){
-        c.drawRect(x,y,x+width,y+width, p);
+        c.drawRect((int) x,(int)y,(int) x+width,(int) y+width, p);
     }
 }
