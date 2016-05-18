@@ -142,19 +142,22 @@ public class GameEngine {
             x = x - camX;
             //convert grid Width/Height to Screen
             int w = tileWidth * temp.width;
-            if((player.y < y && player.y+acceleration > y) && ((player.x > x && player.x < x+w) || (player.x+player.width > x && player.x+player.width < x+w))){
-                player.y = y;
+            if((player.y + tileWidth< (.95)*y && player.y+acceleration+tileWidth >= (1.05)*y) && ((player.x > x && player.x < x+w) || (player.x+player.width > x && player.x+player.width < x+w))){
+                System.out.println("pre gravity catch");
+                player.y = y-tileWidth;
                 player.grounded = true;
                 break;
             }
             //lands on another obstacle from left side
-            if((player.x > x && player.x < x+w) && ((player.y+player.width >= (double) y*(.9975)) && player.y+player.width < (double) y*(1.005))){
+            if((player.x > x && player.x < x+w) && ((player.y+player.width >= (double) y*(.99)) && player.y+player.width < (double) y*(1.01)) && acceleration>0){
                 player.grounded = true;
+                player.y = y-tileWidth;
                 break;
             }
             //lands from right side
-            else if((player.x+player.width > x && player.x+player.width < x+w) && (player.y+player.width >= (double) y*(.9975)) && player.y+player.width < (double) y*(1.005)) {
+            else if((player.x+player.width > x && player.x+player.width < x+w) && (player.y+player.width >= (double) y*(.99)) && player.y+player.width < (double) y*(1.01) && acceleration>0) {
                 player.grounded = true;
+                player.y = y-tileWidth;
                 break;
             }
             else {
