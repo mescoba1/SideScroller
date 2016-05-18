@@ -183,4 +183,5 @@ public class Level {
 
         return obstacles;
     }
+
 }

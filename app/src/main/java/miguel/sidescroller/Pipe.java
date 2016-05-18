@@ -11,7 +11,7 @@ public class Pipe extends Obstacle {
     public int x, y;
     public final int width, height;
     public Pipe(int x, int y, int height){
-        super(x,y, height);
+        super(x,y, 1);
         this.x = x;
         this.y = y;
         this.width = 1;

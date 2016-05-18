@@ -2,6 +2,7 @@ package miguel.sidescroller;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 
 import java.util.Random;
 import java.util.Vector;
@@ -26,7 +27,7 @@ public class GameEngine {
     double jumpSpeed = 12;
     Vector<Vector<Coin>> coins;
     Level coinLevel;
-
+    int score, lives;
     public GameEngine(int sw, int sh){
         screenHeight = sh;
         screenWidth = sw;
@@ -49,6 +50,8 @@ public class GameEngine {
         player.x = 0;
         player.y = tileHeight*10 ;
         dude = new Enemy(4*tileWidth, 4*tileWidth, tileWidth);
+        score = 0;
+        lives = 5;
     }
     public void drawLevel(int camX, Canvas c){
         Vector<Obstacle> current = levels.get(currentLevel);
@@ -139,7 +142,11 @@ public class GameEngine {
             x = x - camX;
             //convert grid Width/Height to Screen
             int w = tileWidth * temp.width;
-
+            if((player.y < y && player.y+acceleration > y) && ((player.x > x && player.x < x+w) || (player.x+player.width > x && player.x+player.width < x+w))){
+                player.y = y;
+                player.grounded = true;
+                break;
+            }
             //lands on another obstacle from left side
             if((player.x > x && player.x < x+w) && ((player.y+player.width >= (double) y*(.9975)) && player.y+player.width < (double) y*(1.005))){
                 player.grounded = true;
@@ -205,20 +212,60 @@ public class GameEngine {
             //convert grid Width/Height to Screen
 
             int d = tileWidth*levelCoin.get(i).diameter;
-
+            int temp = d/4;
 
             //checks if parts of block are drawable onto the screen
             if((x >= camX && x < camX+screenWidth) || (x < camX && x+d > camX)){
                 //draw obstacle relative to camera position
                 if(!levelCoin.get(i).aquired) {
-                    levelCoin.get(i).draw(x - camX, y - d / 4, d, c);
+                    levelCoin.get(i).draw(x - camX, y - temp, d, c);
                 }
             }
         }
     }
 
-    public void collision(){
+    public void collision(int camX){
+        int px = (int) player.x;
+        int py = (int) player.y;
+        Vector<Coin> levelCoin = coins.get(currentLevel);
+        int coinSize = levelCoin.size();
+        /*
+        Vector<Obstacle> currentObstacles = levels.get(currentLevel);
+        int obSize = currentObstacles.size();
+            for(int i = 0; i < obSize; i++){
+                int x = tileWidth * currentObstacles.get(i).x;
+                int y = tileWidth * currentObstacles.get(i).y;
+                int w = tileWidth * currentObstacles.get(i).width;
+                int h = tileWidth * currentObstacles.get(i).height;
+                if(     (px > x && px < x+w && py > y && py < y+h)
+                        ||(px+tileWidth > x && px+tileWidth < x+w && py > y && py < y+h)
+                           ){
+                    player.y = -tileWidth;
+                    lives--;
+                    player.grounded = false;
+                    player.jumpState = true;
+                }
+            }
+        */
+        for(int i = 0; i < coinSize; i++) {
+            int x = tileWidth * levelCoin.get(i).x;
+            int y = tileWidth * levelCoin.get(i).y;
+            int d = tileWidth * levelCoin.get(i).diameter;
+            x-=camX;
+            int r = d/6;
+            if (px > x - r && px < x + r && py > y - r && py < y + r && levelCoin.get(i).aquired == false) {
+                levelCoin.get(i).aquired = true;
+                score += 100;
+            }
+        }
+    }
 
+    public void drawScoreboard(Canvas c){
+        Paint p = new Paint();
+        p.setColor(Color.BLACK);
+        p.setTextSize(100);
+        c.drawText("Score: " + score, 0, 100, p);
+        c.drawText("Lives: " + lives, screenWidth-350,100, p);
     }
 
 
