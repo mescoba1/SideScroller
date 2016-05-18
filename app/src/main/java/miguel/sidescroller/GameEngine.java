@@ -3,6 +3,7 @@ package miguel.sidescroller;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 import java.util.Random;
 import java.util.Vector;
@@ -26,6 +27,8 @@ public class GameEngine {
     Enemy dude;
     double jumpSpeed = 12;
     Vector<Vector<Coin>> coins;
+    Vector<Enemy> enemies;
+    Vector<Portal> portals;
     Level coinLevel;
     int score, lives;
     public GameEngine(int sw, int sh){
@@ -42,14 +45,28 @@ public class GameEngine {
         //vector of coins
         coins= new Vector<Vector<Coin>>();
 
+        enemies = new Vector<Enemy>();
+        enemies.add(level.Level0Enemy());
+        enemies.add(level.Level1Enemy());
+        enemies.add(level.Level2Enemy());
+
+        portals = new Vector<Portal>();
+        portals.add(level.Level0Port());
+        portals.add(level.Level1Port());
+        portals.add(level.Level2Port());
+
         //generate levels
+        levels.add(level.Level0());
+        levels.add(level.Level1());
         levels.add(level.Level2());
+        coins.add(level.CoinLevel0());
+        coins.add(level.CoinLevel1());
         coins.add(level.CoinLevel2());
+
         currentLevel = 0;
         player = new Player(tileWidth);
         player.x = 0;
         player.y = tileHeight*10 ;
-        dude = new Enemy(4*tileWidth, 4*tileWidth, tileWidth);
         score = 0;
         lives = 5;
     }
@@ -165,41 +182,7 @@ public class GameEngine {
             }
         }
     }
-    public void checkWall(int camX){
-        Vector<Obstacle> currentObstacles = levels.get(currentLevel);
-        if(dragLeft)
-            player.x-=speed;
-        if(dragRight)
-            player.x+=speed;
-        for(int i =0; i < currentObstacles.size(); i++){
-            Obstacle temp = currentObstacles.get(i);
-            //convert grid pos to screen positions
-            int x = tileWidth * temp.x;
-            int y = tileHeight * temp.y;
-            x = x - camX;
-            //convert grid Width/Height to Screen
-            int w = tileWidth * temp.width;
-            //hitting obstacle from left side
-            if((player.x+player.width == x) && (player.y > y && player.y < y+w)){
-                /*canMoveRight = false;
-                dragLeft = true;
-                break;*/
-            }
-            //hitting obstacle from right side
-            else if(player.x == x+w && (player.y > y && player.y < y+w)){
-                /*canMoveLeft = false;
-                dragRight = true;
-                break;*/
-            }
-            //resetting flags if not colliding
-            else {
-                dragLeft = false;
-                dragRight = false;
-                canMoveRight = true;
-                canMoveLeft = true;
-            }
-        }
-    }
+
     public void drawCoins(int camX, Canvas c){
         //draw the coins here with
         Vector<Coin> levelCoin = coins.get(currentLevel);
@@ -214,53 +197,67 @@ public class GameEngine {
 
             //convert grid Width/Height to Screen
 
-            int d = tileWidth*levelCoin.get(i).diameter;
-            int temp = d/4;
+            double d = tileWidth*levelCoin.get(i).radius;
 
             //checks if parts of block are drawable onto the screen
             if((x >= camX && x < camX+screenWidth) || (x < camX && x+d > camX)){
                 //draw obstacle relative to camera position
                 if(!levelCoin.get(i).aquired) {
-                    levelCoin.get(i).draw(x - camX, y - temp, d, c);
+                    levelCoin.get(i).draw(x-camX, y-tileWidth/2, tileWidth, c);
                 }
             }
         }
     }
 
-    public void collision(int camX){
+    Rect coin = new Rect(0,0,1,1);
+    Rect playerRect = new Rect(0,0,1,1);
+    Rect enemyRect = new Rect(0,0,0,0);
+    Rect portalRect = new Rect(0,0,0,0);
+    public void collision(int camX, Canvas c) {
         int px = (int) player.x;
         int py = (int) player.y;
         Vector<Coin> levelCoin = coins.get(currentLevel);
         int coinSize = levelCoin.size();
-        /*
-        Vector<Obstacle> currentObstacles = levels.get(currentLevel);
-        int obSize = currentObstacles.size();
-            for(int i = 0; i < obSize; i++){
-                int x = tileWidth * currentObstacles.get(i).x;
-                int y = tileWidth * currentObstacles.get(i).y;
-                int w = tileWidth * currentObstacles.get(i).width;
-                int h = tileWidth * currentObstacles.get(i).height;
-                if(     (px > x && px < x+w && py > y && py < y+h)
-                        ||(px+tileWidth > x && px+tileWidth < x+w && py > y && py < y+h)
-                           ){
-                    player.y = -tileWidth;
-                    lives--;
-                    player.grounded = false;
-                    player.jumpState = true;
-                }
-            }
-        */
-        for(int i = 0; i < coinSize; i++) {
+        //initialize
+        //set
+        playerRect.set(px, py, px + tileWidth, py + tileWidth);
+
+        //check enemy collision
+        Enemy enemy = enemies.get(currentLevel);
+        int xE = enemy.x - camX;
+        enemyRect.set(xE, enemy.y, xE + tileWidth, enemy.y + tileWidth);
+        if (playerRect.intersect(enemyRect)) {
+            player.y = -tileHeight;
+            lives--;
+        }
+
+        //check coin collision
+        for (int i = 0; i < coinSize; i++) {
             int x = tileWidth * levelCoin.get(i).x;
-            int y = tileWidth * levelCoin.get(i).y;
-            int d = tileWidth * levelCoin.get(i).diameter;
-            x-=camX;
-            int r = d/6;
-            if (px > x - r && px < x + r && py > y - r && py < y + r && levelCoin.get(i).aquired == false) {
+            int y = tileHeight * levelCoin.get(i).y;
+            double d = tileWidth * levelCoin.get(i).radius / 2;
+            x -= camX;
+            //int r = (int) ((double)tileWidth*d);
+            coin.set(x - (int) d, y - (int) (2 * d), x + (int) d, y + (int) (d));
+            if (playerRect.intersect(coin) && levelCoin.get(i).aquired == false) {
                 levelCoin.get(i).aquired = true;
                 score += 100;
             }
         }
+    }
+    public boolean checkNextLevel(int camX){
+        Portal port = portals.get(currentLevel);
+        portalRect.set(port.x*tileWidth-camX,port.y*tileHeight,port.x*tileWidth+tileWidth-camX,(port.y+port.h)*tileHeight+tileWidth);
+        if(playerRect.intersect(portalRect)){
+            player.y = -tileHeight;
+            player.x = 0;
+            score = 0;
+            currentLevel++;
+            return true;
+        }else {
+            return false;
+        }
+
     }
 
     public void drawScoreboard(Canvas c){
@@ -268,7 +265,17 @@ public class GameEngine {
         p.setColor(Color.BLACK);
         p.setTextSize(100);
         c.drawText("Score: " + score, 0, 100, p);
-        c.drawText("Lives: " + lives, screenWidth-350,100, p);
+        c.drawText("Lives: " + lives, screenWidth-350, 100, p);
+    }
+
+    public void drawEnemy(Canvas c, int camX){
+        Enemy current  = enemies.get(currentLevel);
+        current.draw(c);
+    }
+
+    public void drawPortal(Canvas c, int camX){
+        Portal current = portals.get(currentLevel);
+        current.draw(c,tileWidth,tileHeight,camX);
     }
 
 

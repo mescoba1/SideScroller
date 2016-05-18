@@ -24,13 +24,14 @@ public class Enemy {
         c.drawRect(x, y, x+size, y+size, p);
     }
 
-    public void update(){
+    public void update(int speed){
         if(count >= size){
             dir*=-1;
             count = 0;
         }
         count++;
         x+=dir;
+        x-=speed;
     }
 
 

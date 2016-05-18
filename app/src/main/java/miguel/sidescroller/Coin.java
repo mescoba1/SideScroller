@@ -11,15 +11,14 @@ public class Coin  {
     public int x, y;
     public boolean aquired;
    // public final int width, height;
-    public final int diameter;
+    public final double radius;
     public Coin(int x, int y){
         //super(x, y);
         this.x = x;
         this.y = y;
-        diameter =1;
+        radius = .5;
         aquired = false;
-        //height = 1/2;
-        //width = 1/2;
+
 
 
     }
@@ -27,7 +26,7 @@ public class Coin  {
         Paint p = new Paint();
         p.setColor(Color.YELLOW);
         //c.drawRect
-        c.drawCircle(canvasX, canvasY,(size/6)*diameter, p);
+        c.drawCircle(canvasX, canvasY,(int)(((double)size)*radius), p);
 
     }
 }

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -88,20 +89,40 @@ public class ScrollView extends SurfaceView
     @Override
     protected void onDraw(Canvas c){
     }
-
+    boolean nextlevel = false;
     public void draw(Canvas c) {
-        camera = 5000;
         c.drawColor(Color.rgb(135, 206, 250));
-        game.drawCoins(camera,c);
+        //camera = 6700;
         game.drawLevel(camera, c);
+        game.drawCoins(camera, c);
+        //implements gravity
         game.gravity(camera);
         game.movePlayer(dir, moveLeft, moveRight);
-        game.checkWall(camera);
-        game.collision(camera);
+        game.drawEnemy(c, camera);
+        //pans the camera
         if(camera < (game.tileWidth * game.level.levelWidth) - game.screenWidth){
-            //camera+=2;
+            camera+=2;
+            //updates position of enemy
+            game.enemies.get(game.currentLevel).update(2);
         }
+        //check collision with coins and enemy
+        game.collision(camera, c);
         game.drawScoreboard(c);
+        game.drawPortal(c, camera);
+
+        //move to next level falg
+        nextlevel = game.checkNextLevel(camera);
+        if(nextlevel){
+            camera = 0;
+            nextlevel = false;
+        }
+        //gameover screen
+        if(game.lives <= 0){
+            c.drawColor(Color.rgb(0,0,0));
+            Paint p = new Paint();
+            p.setColor(Color.BLACK);
+            c.drawText("GAME OVER", 0, 100, p);
+        }
     }
 }
 

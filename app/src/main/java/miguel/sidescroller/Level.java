@@ -7,10 +7,12 @@ import java.util.Vector;
  */
 public class Level {
     int width, height, levelWidth = 45, levelHeight = 16;
-
+    int tileWidth, tileHeight;
     public Level(int screenWidth, int screenHeight) {
         width = screenWidth;
         height = screenHeight;
+        tileWidth = screenWidth / 9;
+        tileHeight = screenHeight / 16;
     }
 
     /*Obstacle vector in level
@@ -170,5 +172,23 @@ public class Level {
 
         return obstacles;
     }
+    public Enemy Level0Enemy(){
+        return new Enemy(13*tileWidth,5*tileHeight,tileWidth);
+    }
+    public Enemy Level2Enemy(){
+        return new Enemy(44*tileWidth,7*tileHeight,tileWidth);
+    }
+    public Enemy Level1Enemy(){
+        return new Enemy(20*tileWidth,1*tileHeight,tileWidth);
+    }
 
+    public Portal Level0Port(){
+        return new Portal(44, 8,tileWidth);
+    }
+    public Portal Level1Port(){
+        return new Portal(44,12,tileWidth);
+    }
+    public Portal Level2Port(){
+        return new Portal(44,7,tileWidth);
+    }
 }
