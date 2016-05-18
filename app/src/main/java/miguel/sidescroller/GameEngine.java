@@ -149,13 +149,13 @@ public class GameEngine {
                 break;
             }
             //lands on another obstacle from left side
-            if((player.x > x && player.x < x+w) && ((player.y+player.width >= (double) y*(.99)) && player.y+player.width < (double) y*(1.01)) && acceleration>0){
+            if((player.x > x && player.x < x+w) && ((player.y+player.width >= (double) y*(.99)) && player.y+player.width < (double) y*(1.01)) && acceleration>1){
                 player.grounded = true;
                 player.y = y-tileWidth;
                 break;
             }
             //lands from right side
-            else if((player.x+player.width > x && player.x+player.width < x+w) && (player.y+player.width >= (double) y*(.99)) && player.y+player.width < (double) y*(1.01) && acceleration>0) {
+            else if((player.x+player.width > x && player.x+player.width < x+w) && (player.y+player.width >= (double) y*(.99)) && player.y+player.width < (double) y*(1.01) && acceleration > 1) {
                 player.grounded = true;
                 player.y = y-tileWidth;
                 break;
